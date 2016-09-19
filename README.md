@@ -44,7 +44,7 @@ fontSpy(["ProximaNova-Light", "ProximaNovaSoft-Regular"], function (loadedFonts)
 ```
 
 Options:
- - testFont: The fallback font to test (defaults to: QW@HhsXJIO)
- - testString: The string used to check for size changes when the font loads
+ - testFont: The fallback font to test (defaults to: Courier New)
+ - testString: The string used to check for size changes when the font loads (defaults to: QW@HhsXJIO)
  - delay: The time between successive checks for the loaded fonts (defaults to 100ms)
  - timeOut: The total time to wait for fonts before giving up (defaults to 1000ms)

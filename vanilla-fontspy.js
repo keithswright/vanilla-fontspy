@@ -43,23 +43,18 @@ function fontSpy(fontName, callback, options) {
         testElement.style.fontFamily = fontName[i].split(",")[0] + "," + options.testFont
     }
 
-    var failure = function () {
+    var finished = function () {
         var loadedFonts = [];
         for (var i = 0; i < fontName.length; i++) {
             var testElement = testElements[fontName[i]];
-            if (testElement) {
-                document.body.removeChild(testElement.element);
-                testElement = undefined;
-            } else {
+            if (testElement.loaded === true) {
                 loadedFonts.push(fontName[i]);
             }
+            document.body.removeChild(testElement.element);
+            testElement = undefined;
         }
 
         callback(loadedFonts);
-    };
-
-    var success = function () {
-        callback(fontName);
     };
 
     var retry = function () {
@@ -67,7 +62,7 @@ function fontSpy(fontName, callback, options) {
             setTimeout(checkFont, options.delay);
             options.timeOut -= options.delay;
         } else {
-            failure();
+            finished();
         }
     };
 
@@ -77,15 +72,14 @@ function fontSpy(fontName, callback, options) {
         for (var i = 0; i < fontName.length; i++) {
             var testElement = testElements[fontName[i]];
             if (testElement && testElement.hasChangedWidth()) {
-                document.body.removeChild(testElement.element);
-                testElement = undefined;
+                testElement.loaded = true;
             } else {
                 allFontsLoaded = false;
             }
         }
 
         if (allFontsLoaded) {
-            success();
+            finished();
         } else {
             retry();
         }
